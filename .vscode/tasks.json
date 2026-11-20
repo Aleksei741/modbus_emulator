@@ -1,0 +1,164 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Toolchains: Build Everything",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/toolchains/build_windows_toolchain.ps1",
+                "-ProjectRoot", "${workspaceFolder}",
+                "-ProjectName", "${workspaceFolderBasename}",
+                "-BuildDir", "${config:toolchains.buildDir}",
+                "-ProxyUrl", "${config:toolchains.proxy.windows}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Toolchains: Windows x64 Setup MSYS2 UCRT64",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/toolchains/toolchains/windows-ucrt64/setup_windows_ucrt64.ps1",
+                "-ProjectRoot", "${workspaceFolder}",
+                "-ProjectName", "${workspaceFolderBasename}",
+                "-BuildDir", "${config:toolchains.buildDir}",
+                "-ProxyUrl", "${config:toolchains.proxy.windows}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Toolchains: Windows x64 Install UCRT64 Libraries",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/toolchains/library/windows-ucrt64/install_libraries_windows_ucrt64.ps1",
+                "-ProjectRoot", "${workspaceFolder}",
+                "-ProjectName", "${workspaceFolderBasename}",
+                "-BuildDir", "${config:toolchains.buildDir}",
+                "-ProxyUrl", "${config:toolchains.proxy.windows}"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Emulator: Run Windows",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/building/windows-x64/run_emulator.ps1",
+                "-ToolchainBuildDir", "${config:toolchains.buildDir}",
+                "-BuildOutputDir", "${config:emulator.windowsX64.localBuildDir.debug}",
+                "-ExecutableName", "${config:emulator.executableName}"
+            ],
+            "dependsOn": "Project: Windows x64 Debug Build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Poller: Run Windows",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/building/windows-x64/run_poller.ps1",
+                "-ToolchainBuildDir", "${config:toolchains.buildDir}",
+                "-BuildOutputDir", "${config:emulator.windowsX64.localBuildDir.debug}",
+                "-ExecutableName", "${config:poller.executableName}"
+            ],
+            "dependsOn": "Project: Windows x64 Debug Build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Project: Windows x64 Release Package",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/building/windows-x64/build_emulator.ps1",
+                "-ProjectRoot", "${workspaceFolder}",
+                "-ProjectName", "${workspaceFolderBasename}",
+                "-ToolchainBuildDir", "${config:toolchains.buildDir}",
+                "-BuildOutputDir", "${config:emulator.windowsX64.localBuildDir.release}",
+                "-PackageOutputDir", "${config:emulator.windowsX64.packageDir}",
+                "-BuildType", "Release"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Project: Windows x64 Debug Build",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/building/windows-x64/build_emulator.ps1",
+                "-ProjectRoot", "${workspaceFolder}",
+                "-ProjectName", "${workspaceFolderBasename}",
+                "-ToolchainBuildDir", "${config:toolchains.buildDir}",
+                "-BuildOutputDir", "${config:emulator.windowsX64.localBuildDir.debug}",
+                "-BuildType", "Debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

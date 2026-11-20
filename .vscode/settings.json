@@ -1,0 +1,9 @@
+{
+    "toolchains.buildDir": "${workspaceFolder}/toolchain_build",
+    "toolchains.proxy.windows": "http://localhost:10082",
+    "emulator.executableName": "modbus_rtu_emulator",
+    "poller.executableName": "modbus_rtu_poller",
+    "emulator.windowsX64.packageDir": "${workspaceFolder}/dist/windows-x64",
+    "emulator.windowsX64.localBuildDir.debug": "${workspaceFolder}/build/windows-x64/Debug",
+    "emulator.windowsX64.localBuildDir.release": "${workspaceFolder}/build/windows-x64/Release"
+}
